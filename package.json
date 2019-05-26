@@ -1,0 +1,22 @@
+{
+  "name": "react-express-psql-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently --handle-input \"npm run server\" \"npm run client\"",
+    "server": "nodemon",
+    "initialize": "npm i && cd client && npm i && cd ../",
+    "seed": "psql -U claucanchin -f init.sql"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^4.1.0",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.16.4",
+    "pg": "^7.9.0"
+  }
+}
