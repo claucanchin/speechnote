@@ -1,5 +1,9 @@
 module.exports = (app, db) => {
-    const todos = require('./controllers/todos')(db);
 
-    app.get('/todos', todos.getAll)
+    const todosController = require('./controllers/todos')(db);
+    const storyController = require('./controllers/story')(db);
+
+    app.get('/todos', todosController.getAll);
+
+    app.get('/story', storyController.getAll);
 }

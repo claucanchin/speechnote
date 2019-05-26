@@ -8,6 +8,17 @@
 	padding-bottom: 20px;
 }
 
-.togcapsule {
-	padding: 10px 0px;
+.togcapsule1 {
+	padding: 5px 20px 5px 0px;
+}
+
+.togcapsule2 {
+	padding: 5px 0px 5px 20px;
+}
+
+.flex-container {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
 }

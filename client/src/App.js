@@ -13,10 +13,12 @@ class App extends Component {
             list: [],
             deleted: [],
             word: "",
+            story: [],
 	   };
         this.submitHandler = this.submitHandler.bind(this);
         this.removeHandler = this.removeHandler.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
+
 	}
 
 	componentDidMount(){
@@ -25,7 +27,7 @@ class App extends Component {
 			return res.json();
 		})
 		.then(json => {
-            console.log('jsonnn', json)
+            // console.log('list-json ', json)
 			this.setState({list: json})
 		})
 	}
@@ -80,13 +82,13 @@ class App extends Component {
 
                 <div className="heading text-center">speech.to.text</div>
 
-                <div className="container border border-primary">
+                <div className="container">
 
-                    <div className="row border border-primary">
-                        <div className="col-sm-8 border border-primary"></div>
-                        <div className="col-sm-4 d-flex justify-content-between border border-primary">
+                    <div className="row">
+                        <div className="col-sm-8"></div>
+                        <div className="col-sm-4 flex-container">
 
-                                <div className="togcapsule btn-group btn-group-toggle" data-toggle="buttons">
+                                <div className="togcapsule1 btn-group btn-group-toggle" data-toggle="buttons">
                                   <label className="btn btn-outline-secondary active btn-sm">
                                     <input type="radio" name="options" id="optionSpeak" autoComplete="off" checked/> Speak
                                   </label>
@@ -95,7 +97,7 @@ class App extends Component {
                                   </label>
                                 </div>
 
-                                <div className="togcapsule btn-group btn-group-toggle" data-toggle="buttons">
+                                <div className="togcapsule2 btn-group btn-group-toggle" data-toggle="buttons">
                                   <label className="btn btn-outline-secondary active btn-sm">
                                     <input type="radio" name="options" id="optionList" autoComplete="off" checked/> List
                                   </label>
@@ -107,15 +109,15 @@ class App extends Component {
                         </div>
                     </div>
 
-                    <div className="row border border-primary">
-                        <div className="col-sm-8 border border-primary">
+                    <div className="row">
+                        <div className="col-sm-8">
                             <div className="title text-center">LIST</div>
                         </div>
-                        <div className="col-sm-4 border border-primary"></div>
+                        <div className="col-sm-4"></div>
                     </div>
 
-                    <div className="row border border-primary">
-                        <div className="col-sm-8 border border-primary">
+                    <div className="row">
+                        <div className="col-sm-8">
                             <div>
                                 <List
                                 list={this.state.list}
@@ -123,8 +125,8 @@ class App extends Component {
                                 />
                             </div>
                         </div>
-                        <div className="col-sm-4 text-center border border-primary">
-                            <Formstory
+                        <div className="col-sm-4 text-center">
+                            <Formlist
                             submitHandler={(e) => {this.submitHandler(e)}}
                             changeHandler={(e) => {this.changeHandler(e)}}
                             word={this.state.word}

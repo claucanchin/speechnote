@@ -1,7 +1,6 @@
 module.exports = db => {
-
     let getAll = (req, callback) => {
-        db.query(`SELECT * FROM todos`, (err, result) => {
+        db.query(`SELECT * FROM story`, (err, result) => {
             if (err) {
                 callback(err, null);
             }
