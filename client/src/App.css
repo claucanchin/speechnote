@@ -5,5 +5,9 @@
 
 .title {
 	font-size: 25px;
-	padding: 20px;
+	padding-bottom: 20px;
+}
+
+.togcapsule {
+	padding: 10px 0px;
 }

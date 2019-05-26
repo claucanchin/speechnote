@@ -1,14 +1,14 @@
 import React from 'react';
 
-class Form extends React.Component {
+class Formlist extends React.Component {
     render() {
         return (
             <form onSubmit={(e) => {this.props.submitHandler(e)}}>
                 <label>
-                    <input type="text" name="task" placeholder="order pizza"
+                    <input className="form-control" type="text" name="task" placeholder="order pizza"
                     value={this.props.word}
                     onChange={this.props.changeHandler}
-                    />
+                    required/>
                 </label>
                 <button type="submit">+ Task</button>
             </form>
@@ -16,4 +16,4 @@ class Form extends React.Component {
     }
 }
 
-export default Form;
+export default Formlist;

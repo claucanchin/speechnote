@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Form from './components/form/form';
+import Formlist from './components/formlist/formlist';
 import List from './components/list/list';
+import Formstory from './components/formstory/formstory';
 
 class App extends Component {
 
@@ -77,25 +78,44 @@ class App extends Component {
 		return (
             <React.Fragment>
 
-                <div className="heading text-center">
-                    speech.to.text
-                </div>
+                <div className="heading text-center">speech.to.text</div>
 
-                <div className="container">
+                <div className="container border border-primary">
 
-                    <div className="row">
-                        <div className="col-sm-8">
-                        </div>
-                        <div className="col-sm-4 d-flex bd-highlight">
-                            <div className="d-flex align-items-end">
-                            toggle | toggle
-                            </div>
+                    <div className="row border border-primary">
+                        <div className="col-sm-8 border border-primary"></div>
+                        <div className="col-sm-4 d-flex justify-content-between border border-primary">
+
+                                <div className="togcapsule btn-group btn-group-toggle" data-toggle="buttons">
+                                  <label className="btn btn-outline-secondary active btn-sm">
+                                    <input type="radio" name="options" id="optionSpeak" autoComplete="off" checked/> Speak
+                                  </label>
+                                  <label className="btn btn-outline-secondary btn-sm">
+                                    <input type="radio" name="options" id="optionType" autoComplete="off"/> Type
+                                  </label>
+                                </div>
+
+                                <div className="togcapsule btn-group btn-group-toggle" data-toggle="buttons">
+                                  <label className="btn btn-outline-secondary active btn-sm">
+                                    <input type="radio" name="options" id="optionList" autoComplete="off" checked/> List
+                                  </label>
+                                  <label className="btn btn-outline-secondary btn-sm">
+                                    <input type="radio" name="options" id="optionStory" autoComplete="off"/> Story
+                                  </label>
+                                </div>
+
                         </div>
                     </div>
 
-                    <div className="row">
-                        <div className="col-sm-8">
-                            <div className="title text-center">CHECKLIST</div>
+                    <div className="row border border-primary">
+                        <div className="col-sm-8 border border-primary">
+                            <div className="title text-center">LIST</div>
+                        </div>
+                        <div className="col-sm-4 border border-primary"></div>
+                    </div>
+
+                    <div className="row border border-primary">
+                        <div className="col-sm-8 border border-primary">
                             <div>
                                 <List
                                 list={this.state.list}
@@ -103,8 +123,8 @@ class App extends Component {
                                 />
                             </div>
                         </div>
-                        <div className="col-sm-4">
-                            <Form
+                        <div className="col-sm-4 text-center border border-primary">
+                            <Formstory
                             submitHandler={(e) => {this.submitHandler(e)}}
                             changeHandler={(e) => {this.changeHandler(e)}}
                             word={this.state.word}
