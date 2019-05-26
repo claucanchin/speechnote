@@ -1,4 +1,5 @@
 module.exports = db => {
+
     let getAll = (req, callback) => {
         db.query(`SELECT * FROM story`, (err, result) => {
             if (err) {

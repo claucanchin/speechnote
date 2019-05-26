@@ -7,7 +7,7 @@ class Formlist extends React.Component {
                 <form onSubmit={(e) => {this.props.submitHandler(e)}}>
                     <label>
                         <input className="form-control" type="text" name="task" placeholder="order pizza"
-                        value={this.props.word}
+                        value={this.props.inputText}
                         onChange={this.props.changeHandler}
                         required/>
                     </label>

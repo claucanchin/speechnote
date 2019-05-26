@@ -4,7 +4,7 @@ import './list.css';
 class List extends React.Component {
 
     render() {
-        // console.log("list propssss:",this.props.data);
+        // console.log("list propssss:",this.props.list);
         let tasks = this.props.list.map((todo, index) => {
 
             return  <div key={index}>

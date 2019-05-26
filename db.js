@@ -2,6 +2,7 @@ const pg = require('pg');
 const url = require('url');
 //const model = require('pathForModel')
 const todos = require ('./models/todos');
+const story = require ('./models/story');
 var configs;
 
 if (process.env.DATABASE_URL) {
@@ -33,6 +34,7 @@ pool.on('error', function (err) {
 module.exports = {
     //model: model(pool),
     todos: todos(pool),
+    story: story(pool),
 
     //make queries directly from here
     queryInterface: (text, params, callback) => {

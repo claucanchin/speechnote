@@ -3,7 +3,7 @@ import './App.css';
 
 import Formlist from './components/formlist/formlist';
 import List from './components/list/list';
-import Formstory from './components/formstory/formstory';
+// import Formstory from './components/formstory/formstory';
 
 class App extends Component {
 
@@ -12,28 +12,30 @@ class App extends Component {
 		this.state = {
             list: [],
             deleted: [],
-            word: "",
+            inputText: "",
             story: [],
 	   };
         this.submitHandler = this.submitHandler.bind(this);
         this.removeHandler = this.removeHandler.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
-
+        // this.getStory = this.getStory.bind(this);
 	}
 
-	componentDidMount(){
-		fetch('/todos')
-		.then(res => {
-			return res.json();
-		})
-		.then(json => {
-            // console.log('list-json ', json)
-			this.setState({list: json})
-		})
-	}
+    componentDidMount() {
+
+        Promise.all([fetch('/todos'), fetch('/story')])
+
+        .then(([res1, res2]) => {
+            return Promise.all([res1.json(), res2.json()])
+        })
+        .then(([res1, res2]) => {
+            this.setState({list: res1})
+            this.setState({story: res2})
+        });
+    }
 
     changeHandler(event) {
-        this.setState({word: event.target.value});
+        this.setState({inputText: event.target.value});
         console.log(event.target.value)
     }
 
@@ -49,12 +51,12 @@ class App extends Component {
 
             this.setState({
                 list: newList,
-                word: ""
+                inputText: ""
             })
 
         } else {
             alert("Error: 'Task' must be more than 1 character!");
-            this.setState({ word: "" })
+            this.setState({ inputText: "" })
         }
     }
 
@@ -129,7 +131,7 @@ class App extends Component {
                             <Formlist
                             submitHandler={(e) => {this.submitHandler(e)}}
                             changeHandler={(e) => {this.changeHandler(e)}}
-                            word={this.state.word}
+                            inputText={this.state.inputText}
                             />
                         </div>
                     </div>

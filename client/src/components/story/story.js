@@ -5,11 +5,11 @@ class Story extends React.Component {
 
     render() {
         // console.log("list propssss:",this.props.data);
-        let tasks = this.props.list.map((todo, index) => {
+        let words = this.props.story.map((story, index) => {
 
             return  <div key={index}>
                         <div className="d-flex justify-content-between story">
-                            {todo.task}
+                            {story.words}
                             <button value={index} className="btn btn-outline-danger btn-sm" onClick={this.props.removeHandler}>Remove</button>
                         </div>
                     </div>
@@ -17,7 +17,7 @@ class Story extends React.Component {
 
         return (
             <React.Fragment>
-                {tasks}
+                {words}
             </React.Fragment>
         );
     }
