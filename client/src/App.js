@@ -11,14 +11,13 @@ class App extends Component {
 		super();
 		this.state = {
             list: [],
-            deleted: [],
+            deletedList: [],
             inputText: "",
             story: [],
 	   };
         this.submitHandler = this.submitHandler.bind(this);
         this.removeHandler = this.removeHandler.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
-        // this.getStory = this.getStory.bind(this);
 	}
 
     componentDidMount() {
@@ -64,17 +63,17 @@ class App extends Component {
         // console.log(event.target.value)
         let index = event.target.value
         let newList = this.state.list
-        let newDeletedList = this.state.deleted
+        let newDeletedList = this.state.deletedList
         // console.log('deleted item',newList[index])
         //add deleted item to delete list
         newDeletedList.push(newList[index])
-        console.log('deleted stuff:', newDeletedList)
+        // console.log('deleted stuff:', newDeletedList)
 
         //remove item from to-do list
         newList.splice(index, 1)
         this.setState({
             list: newList,
-            deleted: newDeletedList
+            deletedList: newDeletedList
         });
     }
 
