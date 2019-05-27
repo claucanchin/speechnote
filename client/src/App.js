@@ -79,6 +79,21 @@ class App extends Component {
                 inputText: ""
             })
 
+            let url = "/story";
+            let data = {words: 'testing123'};
+            console.log('json stringifyyy ', JSON.stringify(data))
+            fetch(url, {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            }).then(res => res.json())
+            .then(response => console.log('Success:', JSON.stringify(response)))
+            .catch(error => console.error('Error:', error));
+
+
         } else {
             alert("Error: 'Task' must be more than 1 character!");
             this.setState({ inputText: "" })

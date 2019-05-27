@@ -10,7 +10,7 @@ class Story extends React.Component {
             return  <div key={index}>
                         <div className="d-flex justify-content-between story">
                             {story.words}
-                            <button value={index} className="btn btn-outline-danger btn-sm" onClick={this.props.removeHandlerStory}>Remove</button>
+                            <button value={index} className="btn btn-outline-danger btn" onClick={this.props.removeHandlerStory}>Remove</button>
                         </div>
                     </div>
         });

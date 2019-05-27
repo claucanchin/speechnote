@@ -8,5 +8,5 @@ module.exports = (app, db) => {
     // app.post('/todos' todosController.createTodo);
 
     app.get('/story', storyController.getAll);
-    // app.post('/story', storyController.createStory);
+    app.post('/story', storyController.createStory);
 }

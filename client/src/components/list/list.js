@@ -10,7 +10,7 @@ class List extends React.Component {
             return  <div key={index}>
                         <div className="d-flex justify-content-between list">
                             {todo.task}
-                            <button value={index} className="btn btn-outline-danger btn-sm" onClick={this.props.removeHandlerList}>Remove</button>
+                            <button value={index} className="btn btn-outline-danger btn" onClick={this.props.removeHandlerList}>Remove</button>
                         </div>
                     </div>
         });

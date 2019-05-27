@@ -14,15 +14,18 @@ module.exports = db => {
         })
     }
 
-    // let createOne = (request, callback) => {
-    //     const queryString = 'INSERT INTO todos (task) VALUES (request.body.task) RETURNING *';
-    //     db.query(queryString (error, result) => {
-    //         error ? callback(error, null) : callback(null, result.rows);
-    //     })
-    // }
+    let createOne = (request, callback) => {
+
+        const queryString = 'INSERT INTO story (words) VALUES ($1) RETURNING *';
+        let values = [request.body.words];
+
+        db.query(queryString, values, (error, result) => {
+            error ? callback(error, null) : callback(null, result.rows);
+        })
+    }
 
     return {
         getAll,
-        // createOne,
+        createOne,
     }
 }

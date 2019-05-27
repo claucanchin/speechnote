@@ -10,7 +10,7 @@ class Formstory extends React.Component {
                         <i className="fa fa-microphone"></i>
                       </button>;
       } else {
-        button = <button type="submit" className="btn btn-primary">+ Task</button>
+        button = <button type="submit" className="btn btn-primary">Add Story</button>
       }
 
         return (
