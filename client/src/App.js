@@ -14,6 +14,8 @@ class App extends Component {
             inputText: "",
             story: [],
             deletedStory: [],
+            isList: true,
+            isSpeak: true,
 	   };
         this.submitHandlerList = this.submitHandlerList.bind(this);
         this.removeHandlerList = this.removeHandlerList.bind(this);
@@ -37,7 +39,7 @@ class App extends Component {
 
     changeHandler(event) {
         this.setState({inputText: event.target.value});
-        console.log(event.target.value)
+        // console.log(event.target.value)
     }
 
     submitHandlerList(event) {
