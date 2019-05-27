@@ -24,8 +24,18 @@ module.exports = db => {
         })
     }
 
+    let deleteOne = (request, callback) => {
+
+        const queryString = 'DELETE FROM todos WHERE id=' + request.params.id + 'RETURNING *';
+
+        db.query(queryString, (error, result) => {
+            error ? callback(error, null) : callback(null, result.rows);
+        })
+    };
+
     return {
         getAll,
-        createOne
+        createOne,
+        deleteOne
     }
 }

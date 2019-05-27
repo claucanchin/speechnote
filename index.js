@@ -1,14 +1,21 @@
 const express = require('express');
+// const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const app = express();
 const PORT = process.env.PORT || 3001;
 const db = require('./db');
 
+// Set up middleware
+// app.use(methodOverride('_method'));
 app.use(cookieParser());
+// app.use(express.static('public'));
 app.use(express.urlencoded({
     extended: true
 }));
 app.use(express.json());
+
+
+
 
 // ===================================================
 // ROUTES

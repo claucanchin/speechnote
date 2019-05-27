@@ -40,7 +40,6 @@ class App extends Component {
 
     changeHandler(event) {
         this.setState({inputText: event.target.value});
-        // console.log(event.target.value)
     }
 
     submitHandlerList(event) {
@@ -94,6 +93,7 @@ class App extends Component {
 
             let url = "/story";
             let data = {words: inputWords};
+
             fetch(url, {
                 method: "POST",
                 body: JSON.stringify(data),
@@ -111,15 +111,14 @@ class App extends Component {
         }
     }
 
-    removeHandlerList(event) {
-        // console.log(event.target.value)
+    removeHandlerList(event, id) {
+
         let index = event.target.value
         let newList = this.state.list
         let newDeletedList = this.state.deletedList
-        // console.log('deleted item',newList[index])
+
         //add deleted item to delete list
         newDeletedList.push(newList[index])
-        // console.log('deleted stuff:', newDeletedList)
 
         //remove item from to-do list
         newList.splice(index, 1)
@@ -127,24 +126,39 @@ class App extends Component {
             list: newList,
             deletedList: newDeletedList
         });
+
+        fetch(`/todos/${id}/delete`, {
+            method: "DELETE",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id: id})
+        })
+        .then(res => res.json())
+        .then(res => console.log(res))
     }
 
-    removeHandlerStory(event) {
-        // console.log(event.target.value)
+    removeHandlerStory(event, id) {
+
         let index = event.target.value
         let newStory = this.state.story
         let newDeletedStory = this.state.deletedStory
-        // console.log('deleted item',newList[index])
+
         //add deleted item to delete list
         newDeletedStory.push(newStory[index])
-        // console.log('deleted stuff:', newDeletedList)
 
-        //remove item from to-do list
+        //remove item from story
         newStory.splice(index, 1)
         this.setState({
             story: newStory,
             deletedStory: newDeletedStory
         });
+
+        fetch(`/story/${id}/delete`, {
+            method: "DELETE",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({id: id})
+        })
+        .then(res => res.json())
+        .then(res => console.log(res))
     }
 
   onStoryChanged(isStory) {
@@ -177,12 +191,12 @@ class App extends Component {
                         isStory={this.state.isStory}
                         isSpeak={this.state.isSpeak}
                         list={this.state.list}
-                        removeHandlerList={(e) => {this.removeHandlerList(e)}}
+                        removeHandlerList={this.removeHandlerList}
                         submitHandlerList={(e) => {this.submitHandlerList(e)}}
                         changeHandler={(e) => {this.changeHandler(e)}}
                         inputText={this.state.inputText}
                         story={this.state.story}
-                        removeHandlerStory={(e) => {this.removeHandlerStory(e)}}
+                        removeHandlerStory={this.removeHandlerStory}
                         submitHandlerStory={(e) => {this.submitHandlerStory(e)}}
                     />
 

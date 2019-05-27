@@ -12,8 +12,15 @@ module.exports = db => {
         })
     }
 
+    let deleteStory = (request, response) => {
+        db.story.deleteOne(request, (error, story) => {
+            !error ? response.status(200).send(story) : console.error(error);
+        })
+    };
+
     return {
         getAll: getAll,
         createStory: createStory,
+        deleteStory: deleteStory
     }
 };

@@ -12,9 +12,16 @@ module.exports = db => {
         })
     }
 
+    let deleteTodo = (request, response) => {
+        db.todos.deleteOne(request, (error, todos) => {
+            !error ? response.status(200).send(todos) : console.error(error);
+        })
+    };
+
 
     return {
         getAll: getAll,
-        createTodo: createTodo
+        createTodo: createTodo,
+        deleteTodo: deleteTodo
     }
 };

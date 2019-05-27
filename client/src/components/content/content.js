@@ -15,7 +15,7 @@ class Content extends React.Component {
         heading = "STORY";
         contentList = <Story
                 story={this.props.story}
-                removeHandlerStory={(e) => {this.props.removeHandlerStory(e)}}
+                removeHandlerStory={this.props.removeHandlerStory}
               />;
         form = <Formstory
                 submitHandlerStory={(e) => {this.props.submitHandlerStory(e)}}
@@ -27,7 +27,7 @@ class Content extends React.Component {
         heading = "LIST";
         contentList = <List
                   list={this.props.list}
-                  removeHandlerList={(e) => {this.props.removeHandlerList(e)}}
+                  removeHandlerList={this.props.removeHandlerList}
                 />;
         form = <Formlist
                 submitHandlerList={(e) => {this.props.submitHandlerList(e)}}
