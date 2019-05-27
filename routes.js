@@ -5,7 +5,7 @@ module.exports = (app, db) => {
     const storyController = require('./controllers/story')(db);
 
     app.get('/todos', todosController.getAll);
-    // app.post('/todos' todosController.createTodo);
+    app.post('/todos', todosController.createTodo);
 
     app.get('/story', storyController.getAll);
     app.post('/story', storyController.createStory);

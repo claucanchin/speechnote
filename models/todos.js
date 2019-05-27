@@ -14,7 +14,18 @@ module.exports = db => {
         })
     }
 
+    let createOne = (request, callback) => {
+
+        const queryString = 'INSERT INTO todos (task) VALUES ($1) RETURNING *';
+        const values = [request.body.task];
+
+        db.query(queryString, values, (error, result) => {
+            error ? callback(error, null) : callback(null, result.rows);
+        })
+    }
+
     return {
-        getAll
+        getAll,
+        createOne
     }
 }
