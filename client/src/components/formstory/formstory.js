@@ -5,7 +5,7 @@ class Formstory extends React.Component {
     render() {
         return (
                 <form onSubmit={(e) => {this.props.submitHandler(e)}}>
-                    <label for="storytext">
+                    <label htmlFor="storytext">
                         <textarea className="form-control" id="storytext" name="story" placeholder="order pizza" rows="4"
                         value={this.props.word}
                         onChange={this.props.changeHandler}

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import Formlist from './components/formlist/formlist';
-import List from './components/list/list';
-// import Formstory from './components/formstory/formstory';
+import Content from './components/content/content';
 
 class App extends Component {
 
@@ -110,30 +108,15 @@ class App extends Component {
                         </div>
                     </div>
 
-                    <div className="row">
-                        <div className="col-sm-8">
-                            <div className="title text-center">LIST</div>
-                        </div>
-                        <div className="col-sm-4"></div>
-                    </div>
+                    <Content
+                        list={this.state.list}
+                        removeHandler={(e) => {this.removeHandler(e)}}
+                        submitHandler={(e) => {this.submitHandler(e)}}
+                        changeHandler={(e) => {this.changeHandler(e)}}
+                        inputText={this.state.inputText}
+                        story={this.state.story}
+                    />
 
-                    <div className="row">
-                        <div className="col-sm-8">
-                            <div>
-                                <List
-                                list={this.state.list}
-                                removeHandler={(e) => {this.removeHandler(e)}}
-                                />
-                            </div>
-                        </div>
-                        <div className="col-sm-4 text-center">
-                            <Formlist
-                            submitHandler={(e) => {this.submitHandler(e)}}
-                            changeHandler={(e) => {this.changeHandler(e)}}
-                            inputText={this.state.inputText}
-                            />
-                        </div>
-                    </div>
                 </div>
             </React.Fragment>
 		);
