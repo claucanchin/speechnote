@@ -22,27 +22,27 @@ class Content extends React.Component {
                             <div>
                                 <List
                                 list={this.props.list}
-                                removeHandler={(e) => {this.props.removeHandler(e)}}
+                                removeHandlerList={(e) => {this.props.removeHandlerList(e)}}
                                 />
                             </div>
                             <div>
                                 <Story
                                 story={this.props.story}
-                                removeHandler={(e) => {this.props.removeHandler(e)}}
+                                removeHandlerStory={(e) => {this.props.removeHandlerStory(e)}}
                                 />
                             </div>
                         </div>
                         <div className="col-sm-4 text-center">
                             <div>
                                 <Formlist
-                                submitHandler={(e) => {this.props.submitHandler(e)}}
+                                submitHandlerList={(e) => {this.props.submitHandlerList(e)}}
                                 changeHandler={(e) => {this.props.changeHandler(e)}}
                                 inputText={this.props.inputText}
                                 />
                             </div>
                             <div>
                                 <Formstory
-                                submitHandler={(e) => {this.props.submitHandler(e)}}
+                                submitHandlerStory={(e) => {this.props.submitHandlerStory(e)}}
                                 changeHandler={(e) => {this.props.changeHandler(e)}}
                                 inputText={this.props.inputText}
                                 />

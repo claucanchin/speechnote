@@ -4,10 +4,10 @@ import './formstory.scss';
 class Formstory extends React.Component {
     render() {
         return (
-                <form onSubmit={(e) => {this.props.submitHandler(e)}}>
-                    <label htmlFor="storytext">
-                        <textarea className="form-control" id="storytext" name="story" placeholder="order pizza" rows="4"
-                        value={this.props.word}
+                <form onSubmit={(e) => {this.props.submitHandlerStory(e)}}>
+                    <label>
+                        <textarea className="form-control" name="words" placeholder="once upon a time" rows="4"
+                        value={this.props.inputText}
                         onChange={this.props.changeHandler}
                         required>
                         </textarea>

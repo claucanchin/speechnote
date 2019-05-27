@@ -12,10 +12,13 @@ class App extends Component {
             deletedList: [],
             inputText: "",
             story: [],
+            deletedStory: [],
 	   };
-        this.submitHandler = this.submitHandler.bind(this);
-        this.removeHandler = this.removeHandler.bind(this);
+        this.submitHandlerList = this.submitHandlerList.bind(this);
+        this.removeHandlerList = this.removeHandlerList.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
+        this.submitHandlerStory = this.submitHandlerStory.bind(this);
+        this.removeHandlerStory = this.removeHandlerStory.bind(this);
 	}
 
     componentDidMount() {
@@ -36,7 +39,7 @@ class App extends Component {
         console.log(event.target.value)
     }
 
-    submitHandler(event) {
+    submitHandlerList(event) {
         let newList = this.state.list;
         let inputTask = event.target.task.value;
         event.preventDefault();
@@ -57,7 +60,28 @@ class App extends Component {
         }
     }
 
-    removeHandler(event) {
+    submitHandlerStory(event) {
+        let newStory = this.state.story;
+        let inputWords = event.target.words.value;
+        event.preventDefault();
+
+        if (inputWords.length > 1) {
+            newStory.push({
+                words: inputWords,
+            });
+
+            this.setState({
+                story: newStory,
+                inputText: ""
+            })
+
+        } else {
+            alert("Error: 'Task' must be more than 1 character!");
+            this.setState({ inputText: "" })
+        }
+    }
+
+    removeHandlerList(event) {
         // console.log(event.target.value)
         let index = event.target.value
         let newList = this.state.list
@@ -72,6 +96,24 @@ class App extends Component {
         this.setState({
             list: newList,
             deletedList: newDeletedList
+        });
+    }
+
+    removeHandlerStory(event) {
+        // console.log(event.target.value)
+        let index = event.target.value
+        let newStory = this.state.story
+        let newDeletedStory = this.state.deletedStory
+        // console.log('deleted item',newList[index])
+        //add deleted item to delete list
+        newDeletedStory.push(newStory[index])
+        // console.log('deleted stuff:', newDeletedList)
+
+        //remove item from to-do list
+        newStory.splice(index, 1)
+        this.setState({
+            story: newStory,
+            deletedStory: newDeletedStory
         });
     }
 
@@ -110,11 +152,13 @@ class App extends Component {
 
                     <Content
                         list={this.state.list}
-                        removeHandler={(e) => {this.removeHandler(e)}}
-                        submitHandler={(e) => {this.submitHandler(e)}}
+                        removeHandlerList={(e) => {this.removeHandlerList(e)}}
+                        submitHandlerList={(e) => {this.submitHandlerList(e)}}
                         changeHandler={(e) => {this.changeHandler(e)}}
                         inputText={this.state.inputText}
                         story={this.state.story}
+                        removeHandlerStory={(e) => {this.removeHandlerStory(e)}}
+                        submitHandlerStory={(e) => {this.submitHandlerStory(e)}}
                     />
 
                 </div>

@@ -4,7 +4,7 @@ import './formlist.css';
 class Formlist extends React.Component {
     render() {
         return (
-                <form onSubmit={(e) => {this.props.submitHandler(e)}}>
+                <form onSubmit={(e) => {this.props.submitHandlerList(e)}}>
                     <label>
                         <input className="form-control" type="text" name="task" placeholder="order pizza"
                         value={this.props.inputText}
