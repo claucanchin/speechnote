@@ -3,6 +3,15 @@ import './formlist.css';
 
 class Formlist extends React.Component {
     render() {
+      let button;
+      if (this.props.isSpeak) {
+        button = <button type="submit" id="speech" className="btn">
+                        <div className="pulse-ring"></div>
+                        <i className="fa fa-microphone"></i>
+                      </button>;
+      } else {
+        button = <button type="submit" className="btn btn-primary">+ Task</button>;
+      }
         return (
                 <form onSubmit={(e) => {this.props.submitHandlerList(e)}}>
                     <label>
@@ -11,9 +20,7 @@ class Formlist extends React.Component {
                         onChange={this.props.changeHandler}
                         required/>
                     </label>
-                    <div>
-                        <button type="submit" className="btn btn-primary">+ Task</button>
-                    </div>
+                    <div>{button}</div>
                 </form>
         );
     }

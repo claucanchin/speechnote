@@ -3,6 +3,16 @@ import './formstory.scss';
 
 class Formstory extends React.Component {
     render() {
+      let button;
+      if (this.props.isSpeak) {
+        button = <button type="submit" id="speech" className="btn">
+                        <div className="pulse-ring"></div>
+                        <i className="fa fa-microphone"></i>
+                      </button>;
+      } else {
+        button = <button type="submit" className="btn btn-primary">+ Task</button>
+      }
+
         return (
                 <form onSubmit={(e) => {this.props.submitHandlerStory(e)}}>
                     <label>
@@ -12,12 +22,7 @@ class Formstory extends React.Component {
                         required>
                         </textarea>
                     </label>
-                    <div>
-                        <button type="submit" id="speech" className="btn">
-                            <div className="pulse-ring"></div>
-                            <i className="fa fa-microphone"></i>
-                        </button>
-                    </div>
+                    <div>{button}</div>
                 </form>
         );
     }

@@ -8,44 +8,51 @@ import Story from '../story/story';
 class Content extends React.Component {
 
     render() {
+      let heading;
+      let form;
+      let contentList;
+      if (this.props.isStory) {
+        heading = "STORY";
+        contentList = <Story
+                story={this.props.story}
+                removeHandlerStory={(e) => {this.props.removeHandlerStory(e)}}
+              />;
+        form = <Formstory
+                submitHandlerStory={(e) => {this.props.submitHandlerStory(e)}}
+                changeHandler={(e) => {this.props.changeHandler(e)}}
+                inputText = {this.props.inputText}
+                isSpeak = {this.props.isSpeak}
+                />;
+      } else {
+        heading = "LIST";
+        contentList = <List
+                  list={this.props.list}
+                  removeHandlerList={(e) => {this.props.removeHandlerList(e)}}
+                />;
+        form = <Formlist
+                submitHandlerList={(e) => {this.props.submitHandlerList(e)}}
+                changeHandler={(e) => {this.props.changeHandler(e)}}
+                inputText={this.props.inputText}
+                isSpeak = {this.props.isSpeak}
+                />;
+      }
+
         return (
             <React.Fragment>
                     <div className="row">
                         <div className="col-sm-8">
-                            <div className="title text-center">LIST</div>
+                            <div className="title text-center">{heading}</div>
                         </div>
                         <div className="col-sm-4"></div>
                     </div>
 
                     <div className="row">
                         <div className="col-sm-8">
-                            <div>
-                                <List
-                                list={this.props.list}
-                                removeHandlerList={(e) => {this.props.removeHandlerList(e)}}
-                                />
-                            </div>
-                            <div>
-                                <Story
-                                story={this.props.story}
-                                removeHandlerStory={(e) => {this.props.removeHandlerStory(e)}}
-                                />
-                            </div>
+                          <div>{ contentList }</div>
                         </div>
                         <div className="col-sm-4 text-center">
                             <div>
-                                <Formlist
-                                submitHandlerList={(e) => {this.props.submitHandlerList(e)}}
-                                changeHandler={(e) => {this.props.changeHandler(e)}}
-                                inputText={this.props.inputText}
-                                />
-                            </div>
-                            <div>
-                                <Formstory
-                                submitHandlerStory={(e) => {this.props.submitHandlerStory(e)}}
-                                changeHandler={(e) => {this.props.changeHandler(e)}}
-                                inputText={this.props.inputText}
-                                />
+                              { form }
                             </div>
                         </div>
                     </div>

@@ -14,7 +14,7 @@ class App extends Component {
             inputText: "",
             story: [],
             deletedStory: [],
-            isList: true,
+            isStory: true,
             isSpeak: true,
 	   };
         this.submitHandlerList = this.submitHandlerList.bind(this);
@@ -22,10 +22,11 @@ class App extends Component {
         this.changeHandler = this.changeHandler.bind(this);
         this.submitHandlerStory = this.submitHandlerStory.bind(this);
         this.removeHandlerStory = this.removeHandlerStory.bind(this);
+        this.onStoryChanged = this.onStoryChanged.bind(this);
+        this.onSpeakChanged = this.onSpeakChanged.bind(this);
 	}
 
     componentDidMount() {
-
         Promise.all([fetch('/todos'), fetch('/story')])
 
         .then(([res1, res2]) => {
@@ -120,6 +121,18 @@ class App extends Component {
         });
     }
 
+  onStoryChanged(isStory) {
+    this.setState({
+      isStory: (isStory === "story")
+    });
+  }
+
+  onSpeakChanged(isSpeak) {
+    this.setState({
+      isSpeak: (isSpeak === "speak")
+    });
+  }
+
 	render() {
 		return (
             <React.Fragment>
@@ -128,9 +141,15 @@ class App extends Component {
 
                 <div className="container">
 
-                    <Toggle />
-
+                    <Toggle
+                        isStory={this.state.isStory}
+                        isSpeak={this.state.isSpeak}
+                        onStoryChanged={this.onStoryChanged}
+                        onSpeakChanged={this.onSpeakChanged}
+                    />
                     <Content
+                        isStory={this.state.isStory}
+                        isSpeak={this.state.isSpeak}
                         list={this.state.list}
                         removeHandlerList={(e) => {this.removeHandlerList(e)}}
                         submitHandlerList={(e) => {this.submitHandlerList(e)}}
