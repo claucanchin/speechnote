@@ -4,7 +4,7 @@ import './story.css';
 class Story extends React.Component {
 
     render() {
-        console.log("story propssss:",this.props.story);
+        // console.log("story propssss:",this.props.story);
         let stories = this.props.story.map((story, index) => {
 
             return  <div key={index}>

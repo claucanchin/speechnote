@@ -127,6 +127,7 @@ class App extends Component {
                 <div className="container">
 
                     <Toggle />
+
                     <Content
                         list={this.state.list}
                         removeHandlerList={(e) => {this.removeHandlerList(e)}}
