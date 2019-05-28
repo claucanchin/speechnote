@@ -16,6 +16,11 @@ class App extends Component {
             deletedStory: [],
             isStory: true,
             isSpeak: true,
+            isRecordingStarted: false,
+            audioContext: null,
+            myStream: null,
+            scriptProcessor: null,
+            audioSocket: null,
 	   };
         this.submitHandlerList = this.submitHandlerList.bind(this);
         this.removeHandlerList = this.removeHandlerList.bind(this);
@@ -24,7 +29,16 @@ class App extends Component {
         this.removeHandlerStory = this.removeHandlerStory.bind(this);
         this.onStoryChanged = this.onStoryChanged.bind(this);
         this.onSpeakChanged = this.onSpeakChanged.bind(this);
+
+        this.triggerAudioRecording = this.triggerAudioRecording.bind(this);
+        this.startRecording = this.startRecording.bind(this);
+        this.streamAudioData = this.streamAudioData.bind(this);
+        this.stopAudioRecording = this.stopAudioRecording.bind(this);
+        this.initAndStartAudioRecording = this.initAndStartAudioRecording.bind(this);
+        this.setupAudioSocket = this.setupAudioSocket.bind(this);
 	}
+
+
 
     componentDidMount() {
         Promise.all([fetch('/todos'), fetch('/story')])
@@ -36,7 +50,132 @@ class App extends Component {
             this.setState({list: res1})
             this.setState({story: res2})
         });
+
     }
+
+  triggerAudioRecording() {
+    if (this.state.isRecordingStarted) {
+      this.stopAudioRecording();
+      this.setState({isRecordingStarted: !this.state.isRecordingStarted});
+    } else {
+      this.initAndStartAudioRecording();
+      this.setState({isRecordingStarted: !this.state.isRecordingStarted});
+    }
+  }
+
+  stopAudioRecording() {
+    if (this.state.myStream) {
+      this.state.myStream.getTracks()[0].stop();
+      this.setState({myStream: null});
+    }
+    if (this.state.scriptProcessor) {
+       this.state.scriptProcessor.removeEventListener('audioprocess', this.streamAudioData);
+    }
+    if (this.state.audioSocket) {
+      this.state.audioSocket.close();
+      this.setState({audioSocket: null});
+    }
+  }
+
+    initAndStartAudioRecording() {
+      window.AudioContext = window.AudioContext || window.webkitAudioContext;
+      navigator.mediaDevices.getUserMedia({
+        audio: {
+          mandatory: {
+            googEchoCancellation: 'false',
+            googAutoGainControl: 'false',
+            googNoiseSuppression: 'false',
+            googHighpassFilter: 'false',
+          },
+        },
+      }).then(this.startRecording)
+        .catch( e => {
+          /* If there are some errors with parameter configurations or
+    user didn’t give you the access to the microphone inside the browser, you end here. */
+          console.log(e);
+        });
+    }
+
+    startRecording(stream, callback) {
+      let AudioContext = window.AudioContext || window.webkitAudioContext;
+      this.setState({
+        audioContext: this.state.audioContext || new AudioContext({latencyHint: 'interactive'}),
+      })
+      if (!this.state.audioContext) {
+        return;
+      }
+
+      // AudioNode used to control the overall gain (or volume) of the audio graph
+      const inputPoint = this.state.audioContext.createGain();
+      this.setState({
+        myStream: stream,
+        scriptProcessor: inputPoint.context.createScriptProcessor(2048, 1, 1)
+      });
+      const microphone = this.state.audioContext.createMediaStreamSource(this.state.myStream);
+      const analyser = this.state.audioContext.createAnalyser();
+
+      microphone.connect(inputPoint);
+      inputPoint.connect(analyser);
+      inputPoint.connect(this.state.scriptProcessor);
+      this.state.scriptProcessor.connect(inputPoint.context.destination);
+      // This is for registering to the “data” event of audio stream, without overwriting the default scriptProcessor.onAudioProcess function if there is one.
+      this.state.scriptProcessor.addEventListener('audioprocess', this.streamAudioData);
+    }
+
+    // Function that streams the data to our nodejs backend.
+    streamAudioData(e) {
+      if (!this.state.audioSocket) {
+        this.setupAudioSocket();
+      }
+      const floatSamples = e.inputBuffer.getChannelData(0);
+      if (this.state.audioSocket.readyState === this.state.audioSocket.OPEN) {
+        this.state.audioSocket.send(this.downsampleBuffer(floatSamples, 44100, 16000));
+      }
+    };
+
+    downsampleBuffer(buffer, sampleRate, outSampleRate) {
+      if (outSampleRate === sampleRate) {
+        return buffer;
+      }
+      if (outSampleRate > sampleRate) {
+        throw "downsampling rate show be smaller than original sample rate";
+      }
+      var sampleRateRatio = sampleRate / outSampleRate;
+      var newLength = Math.round(buffer.length / sampleRateRatio);
+      var result = new Int16Array(newLength);
+      var offsetResult = 0;
+      var offsetBuffer = 0;
+      while (offsetResult < result.length) {
+        var nextOffsetBuffer = Math.round((offsetResult + 1) * sampleRateRatio);
+        var accum = 0, count = 0;
+        for (var i = offsetBuffer; i < nextOffsetBuffer && i < buffer.length; i++) {
+          accum += buffer[i];
+          count++;
+        }
+
+        result[offsetResult] = Math.min(1, accum / count) * 0x7FFF;
+        offsetResult++;
+        offsetBuffer = nextOffsetBuffer;
+      }
+      return result.buffer;
+    }
+
+
+    setupAudioSocket() {
+      if (!this.state.audioSocket) {
+        let aWS = new WebSocket('ws://localhost:3002');
+          aWS.onerror = (err) => {console.log('audioSocket error', err)};
+          aWS.onopen = () => {console.log('audioSocket open')}
+          aWS.onclose = () => {console.log('audioSocket closed')}
+          aWS.onmessage = (data) => {
+            this.setState({inputText: this.state.inputText + data.data.substr(1).slice(0, -1)});
+          }
+
+        this.setState({audioSocket: aWS});
+      }
+
+    }
+
 
     changeHandler(event) {
         this.setState({inputText: event.target.value});
@@ -198,6 +337,7 @@ class App extends Component {
                         story={this.state.story}
                         removeHandlerStory={this.removeHandlerStory}
                         submitHandlerStory={(e) => {this.submitHandlerStory(e)}}
+                        triggerAudioRecording={this.triggerAudioRecording}
                     />
 
                 </div>

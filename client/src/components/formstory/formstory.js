@@ -14,6 +14,7 @@ class Formstory extends React.Component {
       }
 
         return (
+          <span>
                 <form onSubmit={(e) => {this.props.submitHandlerStory(e)}}>
                     <label>
                         <textarea className="form-control" name="words" placeholder="once upon a time" rows="4"
@@ -24,6 +25,10 @@ class Formstory extends React.Component {
                     </label>
                     <div>{button}</div>
                 </form>
+                <button className='btn' onClick={this.props.triggerAudioRecording}>
+                  <i className='fa fa-microphone'></i>
+                </button>
+          </span>
         );
     }
 }

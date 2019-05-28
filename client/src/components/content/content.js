@@ -22,6 +22,7 @@ class Content extends React.Component {
                 changeHandler={(e) => {this.props.changeHandler(e)}}
                 inputText = {this.props.inputText}
                 isSpeak = {this.props.isSpeak}
+                triggerAudioRecording={this.props.triggerAudioRecording}
                 />;
       } else {
         heading = "LIST";
@@ -34,6 +35,7 @@ class Content extends React.Component {
                 changeHandler={(e) => {this.props.changeHandler(e)}}
                 inputText={this.props.inputText}
                 isSpeak = {this.props.isSpeak}
+                triggerAudioRecording={this.props.triggerAudioRecording}
                 />;
       }
 
