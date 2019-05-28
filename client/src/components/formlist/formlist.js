@@ -5,10 +5,10 @@ class Formlist extends React.Component {
     render() {
       let button;
       if (this.props.isSpeak) {
-        button = <button type="submit" id="speech" className="btn">
+        button = <button type="submit" id="speech" className="btn" onClick={this.props.triggerAudioRecording}>
                         <div className="pulse-ring"></div>
                         <i className="fa fa-microphone"></i>
-                      </button>;
+                    </button>;
       } else {
         button = <button type="submit" className="btn btn-primary">Add Item</button>;
       }
@@ -20,7 +20,7 @@ class Formlist extends React.Component {
                         onChange={this.props.changeHandler}
                         required/>
                     </label>
-                    <div>{button}</div>
+                        <div>{button}</div>
                 </form>
         );
     }

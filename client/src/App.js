@@ -38,8 +38,6 @@ class App extends Component {
         this.setupAudioSocket = this.setupAudioSocket.bind(this);
 	}
 
-
-
     componentDidMount() {
         Promise.all([fetch('/todos'), fetch('/story')])
 
@@ -50,7 +48,6 @@ class App extends Component {
             this.setState({list: res1})
             this.setState({story: res2})
         });
-
     }
 
   triggerAudioRecording() {
@@ -137,18 +134,20 @@ class App extends Component {
       if (outSampleRate === sampleRate) {
         return buffer;
       }
-      if (outSampleRate > sampleRate) {
-        throw "downsampling rate show be smaller than original sample rate";
+      else if (outSampleRate > sampleRate) {
+        let errorMessage =  { code : 418, message : "downsampling rate show be smaller than original sample rate" };
+        throw errorMessage;
+        // throw "downsampling rate show be smaller than original sample rate";
       }
-      var sampleRateRatio = sampleRate / outSampleRate;
-      var newLength = Math.round(buffer.length / sampleRateRatio);
-      var result = new Int16Array(newLength);
-      var offsetResult = 0;
-      var offsetBuffer = 0;
+      let sampleRateRatio = sampleRate / outSampleRate;
+      let newLength = Math.round(buffer.length / sampleRateRatio);
+      let result = new Int16Array(newLength);
+      let offsetResult = 0;
+      let offsetBuffer = 0;
       while (offsetResult < result.length) {
-        var nextOffsetBuffer = Math.round((offsetResult + 1) * sampleRateRatio);
-        var accum = 0, count = 0;
-        for (var i = offsetBuffer; i < nextOffsetBuffer && i < buffer.length; i++) {
+        let nextOffsetBuffer = Math.round((offsetResult + 1) * sampleRateRatio);
+        let accum = 0, count = 0;
+        for (let i = offsetBuffer; i < nextOffsetBuffer && i < buffer.length; i++) {
           accum += buffer[i];
           count++;
         }
