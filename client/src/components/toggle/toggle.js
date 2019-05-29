@@ -9,23 +9,24 @@ class Toggle extends React.Component {
                         <div className="col-sm-8"></div>
                         <div className="col-sm-4 flex-container">
 
-                                <div className="togcapsule1 btn-group btn-group-toggle" data-toggle="buttons">
-                                  <label className={"btn btn-outline-secondary btn-sm " + (this.props.isSpeak? 'active': '')} onClick={() => this.props.onSpeakChanged("speak")}>
-                                    <input type="radio" name="options" id="optionSpeak" autoComplete="off"/> Speak
-                                  </label>
-                                  <label className={"btn btn-outline-secondary btn-sm " + (!this.props.isSpeak? 'active': '')} onClick={() => this.props.onSpeakChanged("type")}>
-                                    <input type="radio" name="options" id="optionType" autoComplete="off"/> Type
-                                  </label>
-                                </div>
+                            <div className="togcapsule1 btn-group btn-group-toggle" data-toggle="buttons">
+                              <label className={"btn btn-outline-secondary btn-sm " + (this.props.isStory ? 'active' : '')} onClick={() => this.props.onStoryChanged("story")}>
+                                <input type="radio" name="options" id="optionStory" autoComplete="off" /> Story
+                              </label>
+                              <label className={"btn btn-outline-secondary btn-sm " + (!this.props.isStory ? 'active' : '')} onClick={() => this.props.onStoryChanged("list")}>
+                                <input type="radio" name="options" id="optionList" autoComplete="off" /> List
+                              </label>
+                            </div>
 
-                                <div className="togcapsule2 btn-group btn-group-toggle" data-toggle="buttons">
-                                  <label className={"btn btn-outline-secondary btn-sm " + (!this.props.isStory ? 'active' : '')} onClick={() => this.props.onStoryChanged("list")}>
-                                    <input type="radio" name="options" id="optionList" autoComplete="off" /> List
-                                  </label>
-                                  <label className={"btn btn-outline-secondary btn-sm " + (this.props.isStory ? 'active' : '')} onClick={() => this.props.onStoryChanged("story")}>
-                                    <input type="radio" name="options" id="optionStory" autoComplete="off" /> Story
-                                  </label>
-                                </div>
+                            <div className="togcapsule2 btn-group btn-group-toggle" data-toggle="buttons">
+                              <label className={"btn btn-outline-secondary btn-sm " + (this.props.isSpeak? 'active': '')} onClick={() => this.props.onSpeakChanged("speak")}>
+                                <input type="radio" name="options" id="optionSpeak" autoComplete="off"/> Speak
+                              </label>
+                              <label className={"btn btn-outline-secondary btn-sm " + (!this.props.isSpeak? 'active': '')} onClick={() => this.props.onSpeakChanged("type")}>
+                                <input type="radio" name="options" id="optionType" autoComplete="off"/> Type
+                              </label>
+                            </div>
+
                         </div>
                     </div>
             </React.Fragment>

@@ -1,4 +1,5 @@
 import React from 'react';
+import './content.css';
 
 import Formlist from '../formlist/formlist';
 import List from '../list/list';
@@ -48,14 +49,14 @@ class Content extends React.Component {
                         <div className="col-sm-4"></div>
                     </div>
 
-                    <div className="row">
+                    <div className="row" display="flex">
+
                         <div className="col-sm-8">
-                          <div>{ contentList }</div>
+                            { contentList }
                         </div>
+
                         <div className="col-sm-4 text-center">
-                            <div>
-                              { form }
-                            </div>
+                            { form }
                         </div>
                     </div>
             </React.Fragment>
