@@ -21,14 +21,14 @@ class Formstory extends React.Component {
                         <i className="fa fa-microphone"></i>
                       </button>;
         } else {
-            button = <button type="submit" className="btn btn-primary">Add Story</button>
+            button = <button type="submit" className="btn btn-info">Add Story</button>
         }
 
         return (
             <span>
                 <form onSubmit={(e) => {this.props.submitHandlerStory(e)}}>
                     <label>
-                        <textarea className="form-control" name="words" placeholder="once upon a time" rows="4"
+                        <textarea className="form-control form-rounded" name="words" placeholder="...once upon a time" rows="4"
                         value={this.props.inputText}
                         onChange={this.props.changeHandler}
                         >

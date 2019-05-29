@@ -317,7 +317,10 @@ class App extends Component {
         return (
             <React.Fragment>
 
-                <div className="heading text-center">speechnote</div>
+                <div className="heading text-center">
+                    <img src="/images/logo.png" width="140" height="150" alt="logo"/>
+                </div>
+
 
                 <div className="container mainbox">
 
@@ -340,7 +343,10 @@ class App extends Component {
                         submitHandlerStory={(e) => {this.submitHandlerStory(e)}}
                         triggerAudioRecording={this.triggerAudioRecording}
                     />
-
+                </div>
+                <div className="footer">
+                    <div className="copyright">Copyright © 2019 Claucanchin, Inc. All rights reserved.</div>
+                        <a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a>
                 </div>
             </React.Fragment>
         );

@@ -21,12 +21,12 @@ class Formlist extends React.Component {
                         <i className="fa fa-microphone"></i>
                     </button>;
         } else {
-            button = <button type="submit" className="btn btn-primary">Add Item</button>;
+            button = <button type="submit" className="btn btn-info">Add Item</button>;
         }
         return (
             <form onSubmit={(e) => {this.props.submitHandlerList(e)}}>
                     <label>
-                        <input className="form-control" type="text" name="task" placeholder="order pizza"
+                        <input className="form-control form-rounded" type="text" name="task" placeholder="order pizza"
                         value={this.props.inputText}
                         onChange={this.props.changeHandler}
                         />

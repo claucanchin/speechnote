@@ -1,23 +1,31 @@
 body {
-	margin: 5px auto;
+	margin: 0px auto;
+	background-color: #3598DB;
+	background-image: linear-gradient(rgba(255,255,255,0.25), rgba(255,255,255,0.95));
+/*	background-image: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.9)), url(/images/johannes-hofmann-536086-unsplash.jpg);*/
+	/*background-position: center;*/
+  /*background-repeat: no-repeat;*/
+  /*background-size: cover;*/
+  background-attachment: fixed;
 }
 
 .heading {
-	font-size: 50px;
-	padding: 20px;
+	background-color: #173B5D;
+	padding: 10px 0;
+	box-shadow: 0px 18px 30px black;
 }
 
 .title {
 	font-size: 25px;
-	padding-bottom: 20px;
+	padding: 20px 0;
 }
 
 .togcapsule1 {
-	padding: 5px 20px 5px 0px;
+	padding: 20px 20px 5px 0px;
 }
 
 .togcapsule2 {
-	padding: 5px 0px 5px 20px;
+	padding: 20px 0px 5px 20px;
 }
 
 .flex-container {
@@ -26,5 +34,13 @@ body {
 }
 
 .mainbox {
-	padding: 10px 80px;
+	padding: 40px 80px;
+}
+
+.footer {
+	background-color: #173B5D;
+	text-align: center;
+	padding: 10px;
+	color: #E6E6E6;
+	font-size: 14px;
 }

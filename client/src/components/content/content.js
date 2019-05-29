@@ -50,9 +50,9 @@ class Content extends React.Component {
                         <div className="col-sm-4"></div>
                     </div>
 
-                    <div className="row" display="flex">
+                    <div className="row outerwhole" display="flex">
 
-                        <div className="col-sm-7">
+                        <div className="col-sm-7 wholecontent">
                             { contentList }
                         </div>
                         <div className="col-sm-1"></div>
