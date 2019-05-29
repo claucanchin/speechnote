@@ -13,7 +13,7 @@ class Content extends React.Component {
       let form;
       let contentList;
       if (this.props.isStory) {
-        heading = "STORY";
+        heading = "Story";
         contentList = <Story
                 story={this.props.story}
                 removeHandlerStory={this.props.removeHandlerStory}
@@ -26,7 +26,7 @@ class Content extends React.Component {
                 triggerAudioRecording={this.props.triggerAudioRecording}
                 />;
       } else {
-        heading = "LIST";
+        heading = "List";
         contentList = <List
                   list={this.props.list}
                   removeHandlerList={this.props.removeHandlerList}
@@ -43,20 +43,20 @@ class Content extends React.Component {
         return (
             <React.Fragment>
                     <div className="row">
-                        <div className="col-sm-7">
+                        <div className="col-md-7 col-7">
                             <div className="title text-center">{heading}</div>
                         </div>
-                        <div className="col-sm-1"></div>
-                        <div className="col-sm-4"></div>
+                        <div className="col-md-1 col-1"></div>
+                        <div className="col-md-4 col-4"></div>
                     </div>
 
                     <div className="row outerwhole" display="flex">
 
-                        <div className="col-sm-7 wholecontent">
+                        <div className="col-md-7 col-7 wholecontent">
                             { contentList }
                         </div>
-                        <div className="col-sm-1"></div>
-                        <div className="col-sm-4 text-center">
+                        <div className="col-md-1 col-1"></div>
+                        <div className="col-md-4 col-4 text-center">
                             { form }
                         </div>
                     </div>

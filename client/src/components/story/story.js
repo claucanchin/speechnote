@@ -8,10 +8,10 @@ class Story extends React.Component {
         let stories = this.props.story.map((story, index) => {
 
             return  <div key={index} className="row story align-items-center">
-                        <div className="col-sm-8 col-8">
+                        <div className="col-md-8 col-8">
                             {story.words}
                         </div>
-                        <div className="col-sm-4 col-4 remove">
+                        <div className="col-md-4 col-4 remove">
                             <button value={index}
                                     className="btn btn-outline-danger btn-sm"
                                     onClick={(e) => {this.props.removeHandlerStory(e, story.id)
