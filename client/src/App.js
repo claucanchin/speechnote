@@ -167,10 +167,10 @@ class App extends Component {
             aWS.onopen = () => { console.log('audioSocket open') }
             aWS.onclose = () => { console.log('audioSocket closed') }
             aWS.onmessage = (data) => {
-//                 let str =  data.data.substr(1).slice(0, -1);
-//                 if (str == "delete everything"){
-//                 this.setState({story:[]})
-// }
+                // let spoken = data.data.substr(1).slice(0, -1);
+                // if (spoken == "delete everything") {
+                //     this.setState({ story: [] })
+                // }
                 this.setState({ inputText: this.state.inputText + data.data.substr(1).slice(0, -1) });
             }
             this.setState({ audioSocket: aWS });

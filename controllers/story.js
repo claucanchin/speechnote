@@ -1,4 +1,4 @@
-const {exec} = require("child_process");
+const { exec } = require("child_process");
 
 module.exports = db => {
 
@@ -9,15 +9,18 @@ module.exports = db => {
     }
 
     let createStory = (request, response) => {
-//         console.log(request.body.words, "what i said");
+        console.log(request.body.words, "what i said");
 
-//         let whatSaid = request.body.words;
-//         if (whatSaid === "open Sublime"){
-//         exec("subl .")
-// }
-        db.story.createOne(request, (error, story) => {
-            !error ? response.status(200).send(story) : console.error(error);
-        })
+        let whatSaid = request.body.words;
+        if (whatSaid === "open Sublime") {
+            exec("subl .")
+        } else if (whatSaid === "hey Simon open Spotify") {
+            exec("open -a Spotify")
+        } else {
+            db.story.createOne(request, (error, story) => {
+                !error ? response.status(200).send(story) : console.error(error);
+            })
+        }
     }
 
     let deleteStory = (request, response) => {
