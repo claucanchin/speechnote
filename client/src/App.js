@@ -317,9 +317,9 @@ class App extends Component {
         return (
             <React.Fragment>
 
-                <div className="heading text-center">speech.to.text</div>
+                <div className="heading text-center">speechnote</div>
 
-                <div className="container">
+                <div className="container mainbox">
 
                     <Toggle
                         isStory={this.state.isStory}

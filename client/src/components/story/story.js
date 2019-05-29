@@ -7,11 +7,11 @@ class Story extends React.Component {
         // console.log("story propssss:",this.props.story);
         let stories = this.props.story.map((story, index) => {
 
-            return  <div key={index} className="row list align-items-center">
+            return  <div key={index} className="row story align-items-center">
                         <div className="col-sm-8 col-8">
                             {story.words}
                         </div>
-                        <div className="col-sm-4 col-4">
+                        <div className="col-sm-4 col-4 remove">
                             <button value={index}
                                     className="btn btn-outline-danger btn-sm"
                                     onClick={(e) => {this.props.removeHandlerStory(e, story.id)

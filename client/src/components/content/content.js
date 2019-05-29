@@ -43,18 +43,19 @@ class Content extends React.Component {
         return (
             <React.Fragment>
                     <div className="row">
-                        <div className="col-sm-8">
+                        <div className="col-sm-7">
                             <div className="title text-center">{heading}</div>
                         </div>
+                        <div className="col-sm-1"></div>
                         <div className="col-sm-4"></div>
                     </div>
 
                     <div className="row" display="flex">
 
-                        <div className="col-sm-8">
+                        <div className="col-sm-7">
                             { contentList }
                         </div>
-
+                        <div className="col-sm-1"></div>
                         <div className="col-sm-4 text-center">
                             { form }
                         </div>

@@ -8,10 +8,10 @@ class List extends React.Component {
         let tasks = this.props.list.map((todo, index) => {
 
             return  <div key={index} className="row list align-items-center">
-                        <div className="col-sm-8 col-8">
+                        <div className="col-sm-6 col-6">
                             {todo.task}
                         </div>
-                        <div className="col-sm-4 col-4">
+                        <div className="col-sm-6 col-6 remove align-middle">
                             <button value={index}
                                 className="btn btn-outline-danger btn-sm"
                                 onClick={(e) => {this.props.removeHandlerList(e, todo.id)
