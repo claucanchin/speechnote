@@ -7,13 +7,16 @@ class List extends React.Component {
         // console.log("list propssss:",this.props.list);
         let tasks = this.props.list.map((todo, index) => {
 
-            return  <div key={index}>
-                        <div className="d-flex justify-content-between list">
+            return  <div key={index} className="row">
+                        <div className="col-sm-8">
                             {todo.task}
+                        </div>
+                        <div className="col-sm-4">
                             <button value={index}
                                 className="btn btn-outline-danger btn"
                                 onClick={(e) => {this.props.removeHandlerList(e, todo.id)
-                            }}>Remove</button>
+                            }}>Remove
+                            </button>
                         </div>
                     </div>
         }).reverse();
