@@ -6,8 +6,8 @@ class Toggle extends React.Component {
         return (
             <React.Fragment>
                     <div className="row">
-                        <div className="col-sm-8"></div>
-                        <div className="col-sm-4 flex-container">
+                        <div className="col-md-8"></div>
+                        <div className="col-md-4 flex-container">
 
                             <div className="togcapsule1 btn-group btn-group-toggle" data-toggle="buttons">
                               <label className={"btn btn-outline-light btn " + (this.props.isStory ? 'active' : '')} onClick={() => this.props.onStoryChanged("story")}>
