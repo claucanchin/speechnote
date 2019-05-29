@@ -1,3 +1,5 @@
+const {exec} = require("child_process");
+
 module.exports = db => {
 
     let getAll = (req, res) => {
@@ -7,8 +9,12 @@ module.exports = db => {
     }
 
     let createStory = (request, response) => {
-        console.log(request.body.words, "what he said")
+//         console.log(request.body.words, "what i said");
 
+//         let whatSaid = request.body.words;
+//         if (whatSaid === "open Sublime"){
+//         exec("subl .")
+// }
         db.story.createOne(request, (error, story) => {
             !error ? response.status(200).send(story) : console.error(error);
         })
