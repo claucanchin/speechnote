@@ -16,7 +16,7 @@ class Story extends React.Component {
                             }}>Remove</button>
                         </div>
                     </div>
-        });
+        }).reverse();
 
         return (
             <React.Fragment>

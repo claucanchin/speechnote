@@ -175,7 +175,6 @@ class App extends Component {
 
     }
 
-
     changeHandler(event) {
         this.setState({inputText: event.target.value});
     }
@@ -209,7 +208,7 @@ class App extends Component {
             .catch(error => console.error('Error:', error));
 
         } else {
-            alert("Error: 'Task' must be more than 1 character!");
+            // alert("Error: 'Item' must be more than 1 character!");
             this.setState({ inputText: "" })
         }
     }
@@ -244,7 +243,7 @@ class App extends Component {
             .catch(error => console.error('Error:', error));
 
         } else {
-            alert("Error: 'Task' must be more than 1 character!");
+            // alert("Error: 'Story' must be more than 1 character!");
             this.setState({ inputText: "" })
         }
     }

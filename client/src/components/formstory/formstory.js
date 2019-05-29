@@ -20,10 +20,10 @@ class Formstory extends React.Component {
                         <textarea className="form-control" name="words" placeholder="once upon a time" rows="4"
                         value={this.props.inputText}
                         onChange={this.props.changeHandler}
-                        required>
+                        >
                         </textarea>
                     </label>
-                        <div>{button}</div>
+                    <div>{button}</div>
                 </form>
           </span>
         );
