@@ -1,4 +1,5 @@
 $primary: #8dabd1;
+$secondary: #4776b1;
 $size: 100px;
 
 #speech {
@@ -27,7 +28,7 @@ $size: 100px;
   content: '';
   width: $size;
   height: $size;
-  border: 5px solid $primary;
+  border: 5px solid $secondary;
   border-radius: 50%;
   position: absolute;
   top: 0px;

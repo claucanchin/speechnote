@@ -6,9 +6,9 @@ import Toggle from './components/toggle/toggle';
 
 class App extends Component {
 
-	constructor(){
-		super();
-		this.state = {
+    constructor() {
+        super();
+        this.state = {
             list: [],
             deletedList: [],
             inputText: "",
@@ -21,7 +21,7 @@ class App extends Component {
             myStream: null,
             scriptProcessor: null,
             audioSocket: null,
-	   };
+        };
         this.submitHandlerList = this.submitHandlerList.bind(this);
         this.removeHandlerList = this.removeHandlerList.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
@@ -36,147 +36,151 @@ class App extends Component {
         this.stopAudioRecording = this.stopAudioRecording.bind(this);
         this.initAndStartAudioRecording = this.initAndStartAudioRecording.bind(this);
         this.setupAudioSocket = this.setupAudioSocket.bind(this);
-	}
+    }
 
     componentDidMount() {
         Promise.all([fetch('/todos'), fetch('/story')])
 
-        .then(([res1, res2]) => {
-            return Promise.all([res1.json(), res2.json()])
-        })
-        .then(([res1, res2]) => {
-            this.setState({list: res1})
-            this.setState({story: res2})
-        });
+            .then(([res1, res2]) => {
+                return Promise.all([res1.json(), res2.json()])
+            })
+            .then(([res1, res2]) => {
+                this.setState({ list: res1 })
+                this.setState({ story: res2 })
+            });
     }
 
-  triggerAudioRecording() {
-    if (this.state.isRecordingStarted) {
-      this.stopAudioRecording();
-      this.setState({isRecordingStarted: !this.state.isRecordingStarted});
-    } else {
-      this.initAndStartAudioRecording();
-      this.setState({isRecordingStarted: !this.state.isRecordingStarted});
+    triggerAudioRecording() {
+        if (this.state.isRecordingStarted) {
+            this.stopAudioRecording();
+            this.setState({ isRecordingStarted: !this.state.isRecordingStarted });
+        } else {
+            this.initAndStartAudioRecording();
+            this.setState({ isRecordingStarted: !this.state.isRecordingStarted });
+        }
     }
-  }
 
-  stopAudioRecording() {
-    if (this.state.myStream) {
-      this.state.myStream.getTracks()[0].stop();
-      this.setState({myStream: null});
+    stopAudioRecording() {
+        if (this.state.myStream) {
+            this.state.myStream.getTracks()[0].stop();
+            this.setState({ myStream: null });
+        }
+        if (this.state.scriptProcessor) {
+            this.state.scriptProcessor.removeEventListener('audioprocess', this.streamAudioData);
+        }
+        if (this.state.audioSocket) {
+            this.state.audioSocket.close();
+            this.setState({ audioSocket: null });
+        }
     }
-    if (this.state.scriptProcessor) {
-       this.state.scriptProcessor.removeEventListener('audioprocess', this.streamAudioData);
-    }
-    if (this.state.audioSocket) {
-      this.state.audioSocket.close();
-      this.setState({audioSocket: null});
-    }
-  }
 
     initAndStartAudioRecording() {
-      window.AudioContext = window.AudioContext || window.webkitAudioContext;
-      navigator.mediaDevices.getUserMedia({
-        audio: {
-          mandatory: {
-            googEchoCancellation: 'false',
-            googAutoGainControl: 'false',
-            googNoiseSuppression: 'false',
-            googHighpassFilter: 'false',
-          },
-        },
-      }).then(this.startRecording)
-        .catch( e => {
-          /* If there are some errors with parameter configurations or
+        window.AudioContext = window.AudioContext || window.webkitAudioContext;
+        navigator.mediaDevices.getUserMedia({
+                audio: {
+                    mandatory: {
+                        googEchoCancellation: 'false',
+                        googAutoGainControl: 'false',
+                        googNoiseSuppression: 'false',
+                        googHighpassFilter: 'false',
+                    },
+                },
+            }).then(this.startRecording)
+            .catch(e => {
+                /* If there are some errors with parameter configurations or
     user didn’t give you the access to the microphone inside the browser, you end here. */
-          console.log(e);
-        });
+                console.log(e);
+            });
     }
 
     startRecording(stream, callback) {
-      let AudioContext = window.AudioContext || window.webkitAudioContext;
-      this.setState({
-        audioContext: this.state.audioContext || new AudioContext({latencyHint: 'interactive'}),
-      })
-      if (!this.state.audioContext) {
-        return;
-      }
+        let AudioContext = window.AudioContext || window.webkitAudioContext;
+        this.setState({
+            audioContext: this.state.audioContext || new AudioContext({ latencyHint: 'interactive' }),
+        })
+        if (!this.state.audioContext) {
+            return;
+        }
 
-      // AudioNode used to control the overall gain (or volume) of the audio graph
-      const inputPoint = this.state.audioContext.createGain();
-      this.setState({
-        myStream: stream,
-        scriptProcessor: inputPoint.context.createScriptProcessor(2048, 1, 1)
-      });
-      const microphone = this.state.audioContext.createMediaStreamSource(this.state.myStream);
-      const analyser = this.state.audioContext.createAnalyser();
+        // AudioNode used to control the overall gain (or volume) of the audio graph
+        const inputPoint = this.state.audioContext.createGain();
+        this.setState({
+            myStream: stream,
+            scriptProcessor: inputPoint.context.createScriptProcessor(2048, 1, 1)
+        });
+        const microphone = this.state.audioContext.createMediaStreamSource(this.state.myStream);
+        const analyser = this.state.audioContext.createAnalyser();
 
-      microphone.connect(inputPoint);
-      inputPoint.connect(analyser);
-      inputPoint.connect(this.state.scriptProcessor);
-      this.state.scriptProcessor.connect(inputPoint.context.destination);
-      // This is for registering to the “data” event of audio stream, without overwriting the default scriptProcessor.onAudioProcess function if there is one.
-      this.state.scriptProcessor.addEventListener('audioprocess', this.streamAudioData);
+        microphone.connect(inputPoint);
+        inputPoint.connect(analyser);
+        inputPoint.connect(this.state.scriptProcessor);
+        this.state.scriptProcessor.connect(inputPoint.context.destination);
+        // This is for registering to the “data” event of audio stream, without overwriting the default scriptProcessor.onAudioProcess function if there is one.
+        this.state.scriptProcessor.addEventListener('audioprocess', this.streamAudioData);
     }
 
     // Function that streams the data to our nodejs backend.
     streamAudioData(e) {
-      if (!this.state.audioSocket) {
-        this.setupAudioSocket();
-      }
-      const floatSamples = e.inputBuffer.getChannelData(0);
-      if (this.state.audioSocket.readyState === this.state.audioSocket.OPEN) {
-        this.state.audioSocket.send(this.downsampleBuffer(floatSamples, 44100, 16000));
-      }
+        if (!this.state.audioSocket) {
+            this.setupAudioSocket();
+        }
+        const floatSamples = e.inputBuffer.getChannelData(0);
+        if (this.state.audioSocket.readyState === this.state.audioSocket.OPEN) {
+            this.state.audioSocket.send(this.downsampleBuffer(floatSamples, 44100, 16000));
+        }
     };
 
     downsampleBuffer(buffer, sampleRate, outSampleRate) {
-      if (outSampleRate === sampleRate) {
-        return buffer;
-      }
-      else if (outSampleRate > sampleRate) {
-        let errorMessage =  { code : 418, message : "downsampling rate show be smaller than original sample rate" };
-        throw errorMessage;
-        // throw "downsampling rate show be smaller than original sample rate";
-      }
-      let sampleRateRatio = sampleRate / outSampleRate;
-      let newLength = Math.round(buffer.length / sampleRateRatio);
-      let result = new Int16Array(newLength);
-      let offsetResult = 0;
-      let offsetBuffer = 0;
-      while (offsetResult < result.length) {
-        let nextOffsetBuffer = Math.round((offsetResult + 1) * sampleRateRatio);
-        let accum = 0, count = 0;
-        for (let i = offsetBuffer; i < nextOffsetBuffer && i < buffer.length; i++) {
-          accum += buffer[i];
-          count++;
+        if (outSampleRate === sampleRate) {
+            return buffer;
+        } else if (outSampleRate > sampleRate) {
+            let errorMessage = { code: 418, message: "downsampling rate show be smaller than original sample rate" };
+            throw errorMessage;
+            // throw "downsampling rate show be smaller than original sample rate";
         }
+        let sampleRateRatio = sampleRate / outSampleRate;
+        let newLength = Math.round(buffer.length / sampleRateRatio);
+        let result = new Int16Array(newLength);
+        let offsetResult = 0;
+        let offsetBuffer = 0;
+        while (offsetResult < result.length) {
+            let nextOffsetBuffer = Math.round((offsetResult + 1) * sampleRateRatio);
+            let accum = 0,
+                count = 0;
+            for (let i = offsetBuffer; i < nextOffsetBuffer && i < buffer.length; i++) {
+                accum += buffer[i];
+                count++;
+            }
 
-        result[offsetResult] = Math.min(1, accum / count) * 0x7FFF;
-        offsetResult++;
-        offsetBuffer = nextOffsetBuffer;
-      }
-      return result.buffer;
+            result[offsetResult] = Math.min(1, accum / count) * 0x7FFF;
+            offsetResult++;
+            offsetBuffer = nextOffsetBuffer;
+        }
+        return result.buffer;
     }
 
 
     setupAudioSocket() {
-      if (!this.state.audioSocket) {
-        let aWS = new WebSocket('ws://localhost:3002');
-          aWS.onerror = (err) => {console.log('audioSocket error', err)};
-          aWS.onopen = () => {console.log('audioSocket open')}
-          aWS.onclose = () => {console.log('audioSocket closed')}
-          aWS.onmessage = (data) => {
-            this.setState({inputText: this.state.inputText + data.data.substr(1).slice(0, -1)});
-          }
+        if (!this.state.audioSocket) {
+            let aWS = new WebSocket('ws://localhost:3002');
+            aWS.onerror = (err) => { console.log('audioSocket error', err) };
+            aWS.onopen = () => { console.log('audioSocket open') }
+            aWS.onclose = () => { console.log('audioSocket closed') }
+            aWS.onmessage = (data) => {
+                let str =  data.data.substr(1).slice(0, -1);
+                if (str == "delete everything"){
+                this.setState({story:[]})
+}
+                this.setState({ inputText: this.state.inputText + data.data.substr(1).slice(0, -1) });
+            }
 
-        this.setState({audioSocket: aWS});
-      }
+            this.setState({ audioSocket: aWS });
+        }
 
     }
 
     changeHandler(event) {
-        this.setState({inputText: event.target.value});
+        this.setState({ inputText: event.target.value });
     }
 
     submitHandlerList(event) {
@@ -195,23 +199,24 @@ class App extends Component {
             })
 
             let url = "/todos";
-            let data = {task: inputTask};
+            let data = { task: inputTask };
             fetch(url, {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }).then(res => res.json())
-            .then(response => console.log('Success:', JSON.stringify(response)))
-            .catch(error => console.error('Error:', error));
+                    method: "POST",
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }).then(res => res.json())
+                .then(response => console.log('Success:', JSON.stringify(response)))
+                .catch(error => console.error('Error:', error));
 
         } else {
             // alert("Error: 'Item' must be more than 1 character!");
             this.setState({ inputText: "" })
         }
     }
+
 
     submitHandlerStory(event) {
         let newStory = this.state.story;
@@ -229,18 +234,18 @@ class App extends Component {
             })
 
             let url = "/story";
-            let data = {words: inputWords};
+            let data = { words: inputWords };
 
             fetch(url, {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            }).then(res => res.json())
-            .then(response => console.log('Success:', JSON.stringify(response)))
-            .catch(error => console.error('Error:', error));
+                    method: "POST",
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }).then(res => res.json())
+                .then(response => console.log('Success:', JSON.stringify(response)))
+                .catch(error => console.error('Error:', error));
 
         } else {
             // alert("Error: 'Story' must be more than 1 character!");
@@ -265,12 +270,12 @@ class App extends Component {
         });
 
         fetch(`/todos/${id}/delete`, {
-            method: "DELETE",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({id: id})
-        })
-        .then(res => res.json())
-        .then(res => console.log(res))
+                method: "DELETE",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: id })
+            })
+            .then(res => res.json())
+            .then(res => console.log(res))
     }
 
     removeHandlerStory(event, id) {
@@ -290,28 +295,28 @@ class App extends Component {
         });
 
         fetch(`/story/${id}/delete`, {
-            method: "DELETE",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({id: id})
-        })
-        .then(res => res.json())
-        .then(res => console.log(res))
+                method: "DELETE",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: id })
+            })
+            .then(res => res.json())
+            .then(res => console.log(res))
     }
 
-  onStoryChanged(isStory) {
-    this.setState({
-      isStory: (isStory === "story")
-    });
-  }
+    onStoryChanged(isStory) {
+        this.setState({
+            isStory: (isStory === "story")
+        });
+    }
 
-  onSpeakChanged(isSpeak) {
-    this.setState({
-      isSpeak: (isSpeak === "speak")
-    });
-  }
+    onSpeakChanged(isSpeak) {
+        this.setState({
+            isSpeak: (isSpeak === "speak")
+        });
+    }
 
-	render() {
-		return (
+    render() {
+        return (
             <React.Fragment>
 
                 <div className="heading text-center">speech.to.text</div>
@@ -340,8 +345,8 @@ class App extends Component {
 
                 </div>
             </React.Fragment>
-		);
-	}
+        );
+    }
 }
 
 export default App;

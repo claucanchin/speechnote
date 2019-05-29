@@ -7,6 +7,8 @@ module.exports = db => {
     }
 
     let createStory = (request, response) => {
+        console.log(request.body.words, "what he said")
+
         db.story.createOne(request, (error, story) => {
             !error ? response.status(200).send(story) : console.error(error);
         })
