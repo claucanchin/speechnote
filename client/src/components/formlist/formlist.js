@@ -2,31 +2,22 @@ import React from 'react';
 import './formlist.css';
 
 class Formlist extends React.Component {
-
-    // constructor(){
-    //     super();
-    //     this.state = {
-    //         isPulse: false,
-    //    };
-    //    this.onPulseChanged = this.onPulseChanged.bind(this);
-
-    // onPulseChanged = () => {
-    //     return (
-    //         let currPulse = this.state.isPulse;
-    //         if (currPulse === false) {
-    //             this.setState({isPulse: !currPulse});
-    //         } else {
-    //             this.setState({isPulse: !currPulse});
-    //         }
-    //     )
-    // }
+    constructor() {
+        super();
+        this.state = {
+            isPulsing: false,
+        };
+    };
 
     render() {
         let button;
         if (this.props.isSpeak) {
-
-            button = <button type="submit" id="speech" className="btn" onClick={this.props.triggerAudioRecording}>
-                        <div className="pulse-ring"></div>
+            button = <button type="submit" id="speech" className="btn"
+                    onClick={ (e) => {
+                        this.setState({isPulsing: !this.state.isPulsing});
+                        this.props.triggerAudioRecording();
+                    }}>
+                        <div className={this.state.isPulsing ? "pulse-ring" : ""}></div>
                         <i className="fa fa-microphone"></i>
                     </button>;
         } else {
