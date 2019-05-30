@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS dictanote_db;
-CREATE DATABASE dictanote_db;
-\c dictanote_db;
+DROP DATABASE IF EXISTS speechnote_db;
+CREATE DATABASE speechnote_db;
+\c speechnote_db;
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
@@ -26,7 +26,10 @@ INSERT INTO todos (task) VALUES ('broccoli');
 INSERT INTO todos (task) VALUES ('dog shampoo');
 INSERT INTO todos (task) VALUES ('butter');
 INSERT INTO todos (task) VALUES ('eggs');
-
+INSERT INTO todos (task) VALUES ('carrots');
+INSERT INTO todos (task) VALUES ('steak');
+INSERT INTO todos (task) VALUES ('bread');
+INSERT INTO todos (task) VALUES ('sausages');
 
 INSERT INTO story (words) VALUES ('Mama always said life was like a box of chocolates. You never know what you''re gonna get.');
 INSERT INTO story (words) VALUES ('And I will strike down upon thee with great vengeance and furious anger those who attempt to poison and destroy my brothers. And you will know my name is the Lord when I lay my vengeance upon you!');

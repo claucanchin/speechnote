@@ -20,7 +20,7 @@ if (process.env.DATABASE_URL) {
     configs = {
         user: 'claucanchin',
         host: '127.0.0.1',
-        database: 'dictanote_db',
+        database: 'speechnote_db',
         port: 5432
     };
 }

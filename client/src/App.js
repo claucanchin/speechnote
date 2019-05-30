@@ -346,7 +346,7 @@ class App extends Component {
                 </div>
                 <div className="footer">
                     <div className="copyright">Copyright © 2019 Claucanchin, Inc. All rights reserved.</div>
-                        <a href="#">Terms of Use</a> | <a href="#">Privacy Policy</a>
+                        <p>Terms of Use | Privacy Policy</p>
                 </div>
             </React.Fragment>
         );
