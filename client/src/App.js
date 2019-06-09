@@ -162,7 +162,11 @@ class App extends Component {
 
     setupAudioSocket() {
         if (!this.state.audioSocket) {
-            let aWS = new WebSocket('ws://localhost:3002');
+            let host = window.location.origin.replace(/^http/, 'ws');
+            if (host.indexOf("localhost")) {
+              host = host.replace('3000', '3001');
+            }
+            let aWS = new WebSocket(host);
             aWS.onerror = (err) => { console.log('audioSocket error', err) };
             aWS.onopen = () => { console.log('audioSocket open') }
             aWS.onclose = () => { console.log('audioSocket closed') }

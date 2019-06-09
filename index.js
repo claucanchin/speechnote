@@ -1,5 +1,6 @@
 const express = require('express');
 // const methodOverride = require('method-override');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const speech = require('@google-cloud/speech');
 const app = express();
@@ -23,9 +24,16 @@ app.use(express.json());
 require('./routes')(app, db);
 
 // Root GET request (it doesn't belong in any controller file)
-app.get('/', (request, response) => {
-  response.send('home');
-});
+if (process.env.IS_PRODUCTION) {
+  app.use(express.static(path.resolve(__dirname, './client/build')));
+  app.get('/', (request, response) => {
+    response.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
+  });
+} else {
+  app.get('/', (request, response) => {
+    response.send('home');
+  });
+}
 
 // Catch all unmatched requests and return 404 not found page
 app.get('*', (request, response) => {
@@ -46,6 +54,7 @@ let server = require('http').createServer();
 let WSServer = require('ws').Server;
 let wss = new WSServer({server: server});
 
+server.on('request', app);
 wss.on('connection', (ws) => {
   const recognizeStream = client.streamingRecognize(request);
   recognizeStream.on('data', (data) => {
@@ -67,5 +76,4 @@ wss.on('connection', (ws) => {
 });
 
 
-app.listen(PORT, () => console.log('~~~ Tuning in to the waves of port '+PORT+' ~~~'));
-server.listen((PORT + 1), () => console.log('~~~ Websocket server listening on ' +(PORT+1)+' ~~~'));
+server.listen(PORT, () => console.log('~~~ Tuning in to the waves of port '+PORT+' ~~~'));

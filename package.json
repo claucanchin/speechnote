@@ -2,13 +2,18 @@
   "name": "speechnote",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "12.3.x"
+  },
   "main": "index.js",
   "scripts": {
     "client": "cd client && npm start",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently --handle-input \"npm run server\" \"npm run client\"",
+    "start": "node index.js",
+    "dev": "concurrently --handle-input \"npm run server\" \"npm run client\"",
     "server": "nodemon",
     "initialize": "npm i && cd client && npm i && cd ../",
+    "build": "cd client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "seed": "psql -U claucanchin -f init.sql"
   },
   "author": "",
